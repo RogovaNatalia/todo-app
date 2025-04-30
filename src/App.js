@@ -20,6 +20,7 @@ function App() {
     const newTask = {
       id: uuidv4(),
       text: newTodo,
+      completed: false,
     };
     setTodos([...todos, newTask]);
   };
@@ -28,11 +29,23 @@ function App() {
     setTodos(todos.filter((todo) => todo.id !== id));
   };
 
+  const toggleComplete = (id) => {
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+      )
+    );
+  };
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Мой To-Do List</h1>
       <TodoForm addTodo={addTodo} />
-      <TodoList todos={todos} deleteTodo={deleteTodo} />
+      <TodoList
+        todos={todos}
+        deleteTodo={deleteTodo}
+        toggleComplete={toggleComplete}
+      />
     </div>
   );
 }
