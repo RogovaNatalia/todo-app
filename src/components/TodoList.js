@@ -1,0 +1,18 @@
+import React from "react";
+import TodoItem from "./TodoItem";
+
+function TodoList({ todos, deleteTodo }) {
+  return (
+    <ul className="list-group">
+      {todos.map((todo) => (
+        <TodoItem
+          key={todo.id}
+          text={todo.text}
+          onDelete={() => deleteTodo(todo.id)}
+        />
+      ))}
+    </ul>
+  );
+}
+
+export default TodoList;
