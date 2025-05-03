@@ -16,13 +16,14 @@ function App() {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
 
-  const addTodo = (newTodo) => {
+  const addTodo = ({ text, priority }) => {
     const newTask = {
       id: uuidv4(),
-      text: newTodo,
+      text,
+      priority,
       completed: false,
     };
-    setTodos([...todos, newTask]);
+    setTodos((prev) => [...prev, newTask]);
   };
 
   const deleteTodo = (id) => {
@@ -37,12 +38,17 @@ function App() {
     );
   };
 
+  const sortedTodos = [...todos].sort((a, b) => {
+    const priorityOrder = { high: 1, medium: 2, low: 3 };
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Мой To-Do List</h1>
       <TodoForm addTodo={addTodo} />
       <TodoList
-        todos={todos}
+        todos={sortedTodos}
         deleteTodo={deleteTodo}
         toggleComplete={toggleComplete}
       />

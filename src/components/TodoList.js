@@ -9,6 +9,7 @@ function TodoList({ todos, deleteTodo, toggleComplete }) {
           key={todo.id}
           text={todo.text}
           completed={todo.completed}
+          priority={todo.priority}
           onDelete={() => deleteTodo(todo.id)}
           onToggle={() => toggleComplete(todo.id)}
         />

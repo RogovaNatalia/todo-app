@@ -2,28 +2,37 @@ import React, { useState } from "react";
 
 function TodoForm({ addTodo }) {
   const [value, setValue] = useState("");
+  const [priority, setPriority] = useState("low");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); //нет перезагрузки страницы
-    if (value.trim()) {
-      //удаляет пробелы в начале и в конце строки. Если пользователь ничего не ввёл (или только пробелы), задача не будет добавлена
-      addTodo(value); // вызываем функцию, переданную как пропс
-      setValue(""); // очищаем поле ввода
-    }
+    e.preventDefault();
+    if (!value.trim()) return;
+
+    addTodo({ text: value, priority });
+    setValue("");
+    setPriority("low");
   };
 
   return (
-    <form onSubmit={handleSubmit} id="todo-form" className="mb-3">
+    <form onSubmit={handleSubmit} className="mb-3">
       <div className="input-group">
         <input
           type="text"
           className="form-control"
-          id="todo-input"
-          placeholder="Введите новую задачу..."
+          placeholder="Введите задачу..."
           value={value}
           onChange={(e) => setValue(e.target.value)}
         />
-        <button type="submit" className="btn btn-primary">
+        <select
+          className="form-select"
+          value={priority}
+          onChange={(e) => setPriority(e.target.value)}
+        >
+          <option value="low">Низкий</option>
+          <option value="medium">Средний</option>
+          <option value="high">Высокий</option>
+        </select>
+        <button className="btn btn-primary" type="submit">
           Добавить
         </button>
       </div>
