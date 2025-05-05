@@ -1,17 +1,10 @@
 import React from "react";
 
-function TodoItem({ text, completed, priority, onDelete, onToggle }) {
-  const getBadgeColor = (priority) => {
-    switch (priority) {
-      case "high":
-        return "danger";
-      case "medium":
-        return "warning";
-      case "low":
-        return "success";
-      default:
-        return "secondary";
-    }
+function TodoItem({ text, completed, priority, onDelete, onToggle, onEdit }) {
+  const priorityBadge = {
+    high: "danger",
+    medium: "warning",
+    low: "secondary",
   };
 
   return (
@@ -24,11 +17,14 @@ function TodoItem({ text, completed, priority, onDelete, onToggle }) {
           onChange={onToggle}
         />
         <span
-          className={completed ? "text-decoration-line-through text-muted" : ""}
+          className={
+            "me-3 " +
+            (completed ? "text-decoration-line-through text-muted" : "")
+          }
         >
           {text}
         </span>
-        <span className={`badge bg-${getBadgeColor(priority)} ms-3`}>
+        <span className={`badge bg-${priorityBadge[priority]}`}>
           {priority === "high"
             ? "Высокий"
             : priority === "medium"
@@ -36,9 +32,17 @@ function TodoItem({ text, completed, priority, onDelete, onToggle }) {
             : "Низкий"}
         </span>
       </div>
-      <button className="btn btn-danger btn-sm" onClick={onDelete}>
-        Удалить
-      </button>
+      <div>
+        <button
+          className="btn btn-sm btn-outline-secondary me-2"
+          onClick={onEdit}
+        >
+          ✏️
+        </button>
+        <button className="btn btn-sm btn-danger" onClick={onDelete}>
+          🗑️
+        </button>
+      </div>
     </li>
   );
 }

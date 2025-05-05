@@ -1,17 +1,21 @@
 import React from "react";
 import TodoItem from "./TodoItem";
 
-function TodoList({ todos, deleteTodo, toggleComplete }) {
+function TodoList({ todos, deleteTodo, toggleComplete, setEditingTodo }) {
+  const sortedTodos = [...todos].sort((a, b) => {
+    const priorities = { high: 3, medium: 2, low: 1 };
+    return priorities[b.priority] - priorities[a.priority];
+  });
+
   return (
     <ul className="list-group">
-      {todos.map((todo) => (
+      {sortedTodos.map((todo) => (
         <TodoItem
           key={todo.id}
-          text={todo.text}
-          completed={todo.completed}
-          priority={todo.priority}
+          {...todo}
           onDelete={() => deleteTodo(todo.id)}
           onToggle={() => toggleComplete(todo.id)}
+          onEdit={() => setEditingTodo(todo)}
         />
       ))}
     </ul>

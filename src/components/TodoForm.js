@@ -1,14 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
-function TodoForm({ addTodo }) {
+function TodoForm({ addTodo, editingTodo, updateTodo, cancelEdit }) {
   const [value, setValue] = useState("");
   const [priority, setPriority] = useState("low");
+
+  useEffect(() => {
+    if (editingTodo) {
+      setValue(editingTodo.text);
+      setPriority(editingTodo.priority);
+    }
+  }, [editingTodo]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!value.trim()) return;
 
-    addTodo({ text: value, priority });
+    if (editingTodo) {
+      updateTodo(editingTodo.id, { text: value, priority });
+      cancelEdit();
+    } else {
+      addTodo({ text: value, priority });
+    }
+
     setValue("");
     setPriority("low");
   };
@@ -33,8 +46,17 @@ function TodoForm({ addTodo }) {
           <option value="high">Высокий</option>
         </select>
         <button className="btn btn-primary" type="submit">
-          Добавить
+          {editingTodo ? "Сохранить" : "Добавить"}
         </button>
+        {editingTodo && (
+          <button
+            className="btn btn-secondary"
+            onClick={cancelEdit}
+            type="button"
+          >
+            Отмена
+          </button>
+        )}
       </div>
     </form>
   );
