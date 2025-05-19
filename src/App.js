@@ -9,8 +9,6 @@ function App() {
     return saved ? JSON.parse(saved) : [];
   });
 
-  const [editingTodo, setEditingTodo] = useState(null);
-
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -46,17 +44,12 @@ function App() {
   return (
     <div className="container mt-5">
       <h1 className="text-center mb-4">Мой To-Do List</h1>
-      <TodoForm
-        addTodo={addTodo}
-        editingTodo={editingTodo}
-        updateTodo={updateTodo}
-        cancelEdit={() => setEditingTodo(null)}
-      />
+      <TodoForm addTodo={addTodo} />
       <TodoList
         todos={todos}
         deleteTodo={deleteTodo}
         toggleComplete={toggleComplete}
-        setEditingTodo={setEditingTodo}
+        editTodo={updateTodo}
       />
     </div>
   );
